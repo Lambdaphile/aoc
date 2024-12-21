@@ -23,7 +23,7 @@ describe('parseInput', () => {
 })
 
 describe('part1', () => {
-  it('should return the total distance between lists', () => {
+  it('should return the total distance between the lists', () => {
     expect(part1(input)).toBe(11)
   })
 })

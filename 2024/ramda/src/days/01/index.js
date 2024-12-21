@@ -21,7 +21,7 @@ export const part1 = R.pipe(
 
 export const part2 = R.pipe(
   parseInput,
-  ([a, b]) => R.map(n => n * frequency(n, b), a),
+  ([left, right]) => R.map(n => n * frequency(n, right), left),
   R.sum
 )
 
