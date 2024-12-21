@@ -16,3 +16,10 @@ export const run = (path, ...fns) => {
     console.log(...fns.map(fn => fn(input)))
   }
 }
+
+export const asc = (a, b) => a - b
+
+export const frequency = (x, xs) => R.pipe(
+  R.countBy(R.identity),
+  R.propOr(0, x)
+)(xs)
