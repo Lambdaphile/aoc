@@ -23,3 +23,18 @@ export const frequency = (x, xs) => R.pipe(
   R.countBy(R.identity),
   R.propOr(0, x)
 )(xs)
+
+export const allIndexed = R.addIndex(R.all)
+
+export const isIncreasing = ns =>
+  allIndexed((n, idx) => idx === 0 || n > ns[idx - 1], ns)
+
+export const isDecreasing = ns =>
+  allIndexed((n, idx) => idx === 0 || n < ns[idx - 1], ns)
+
+export const isMonotonic = ns => R.or(isIncreasing(ns), isDecreasing(ns))
+
+export const isInRange = (x, ns) =>
+  allIndexed((n, idx) => idx === 0 || Math.abs(n - ns[idx - 1]) <= x, ns)
+
+export const anyIndexed = R.addIndex(R.any)
