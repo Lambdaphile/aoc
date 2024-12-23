@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "start": "func() { node --watch ./src/days/${1:-01}/index.js; }; func",
+    "start:debug": "func() { node --inspect-brk ./src/days/${1:-01}/index.js; }; func",
     "test": "node --no-warnings --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "test:watch": "node --no-warnings --experimental-vm-modules node_modules/jest/bin/jest.js --watchAll"
+    "test:watch": "node --no-warnings --experimental-vm-modules node_modules/jest/bin/jest.js --watchAll",
+    "test:debug": "node --inspect-brk --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "author": "Emrah Seidov",
   "license": "ISC",
