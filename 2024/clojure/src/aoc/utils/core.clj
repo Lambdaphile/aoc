@@ -6,3 +6,6 @@
 (defn run [day part-1, part-2]
   (let [input (slurp (get-input-path day))]
     (println (part-1 input) (part-2 input))))
+
+(defn transpose [matrix]
+  (apply map vector matrix))
