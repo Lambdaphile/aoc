@@ -1,5 +1,5 @@
 (ns aoc.days.01.core-test
-  (:require [clojure.test :refer :all]
+  (:require [clojure.test :refer [deftest is]]
             [aoc.days.01.core :refer :all]))
 
 (def input "3   4

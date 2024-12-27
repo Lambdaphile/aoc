@@ -28,5 +28,3 @@
        parse-input
        similarities
        (reduce +)))
-
-(u/run "01" part-1 part-2) ;; => 1197984 23387399
