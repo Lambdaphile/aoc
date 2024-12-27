@@ -1,14 +1,10 @@
 import * as R from 'ramda'
 import { asc, frequency, run } from '../../utils/index.js'
 
-export const parseRow = R.pipe(
-  R.split('  '),
-  R.map(Number)
-)
-
 export const parseInput = R.pipe(
-  R.split('\n'),
-  R.map(parseRow),
+  R.match(/\d+/g),
+  R.map(Number),
+  R.splitEvery(2),
   R.transpose
 )
 
