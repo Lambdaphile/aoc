@@ -10,7 +10,7 @@ export const parseInput = R.pipe(
 )
 
 export const isSafe = R.both(
-  R.partial(isInRange, [MAX_DIFF]),
+  isInRange(MAX_DIFF),
   isMonotonic
 )
 
