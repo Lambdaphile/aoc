@@ -10,7 +10,6 @@ SMSMSASXSS
 SAXAMASAAA
 MAMMMXMMMM
 MXMXAXMASX`
-
 const parsedInput = [
   ['M', 'M', 'M', 'S', 'X', 'X', 'M', 'A', 'S', 'M'],
   ['M', 'S', 'A', 'M', 'X', 'M', 'S', 'M', 'S', 'A'],
@@ -32,7 +31,6 @@ describe('parseInput', () => {
 
 describe('part1', () => {
   it('should return the number of times the word "XMAS" appears in the input', () => {
-    debugger
     expect(part1(input)).toBe(18)
   })
 })
