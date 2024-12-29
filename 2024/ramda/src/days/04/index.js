@@ -17,12 +17,12 @@ export const parseInput = R.pipe(
 const matchHorizontal = (chars, rowIndex, colIndex, matrix) =>
   R.pipe(
     R.juxt([
-      allIndexed(
-        (char, index) =>
-          strictPath([rowIndex, colIndex + index], matrix) === char),
-      allIndexed(
-        (char, index) =>
-          strictPath([rowIndex, colIndex - index], matrix) === char)
+      allIndexed((char, index) =>
+        strictPath([rowIndex, colIndex + index], matrix) === char
+      ),
+      allIndexed((char, index) =>
+        strictPath([rowIndex, colIndex - index], matrix) === char
+      )
     ]),
     R.sum
   )(chars)
@@ -30,29 +30,29 @@ const matchHorizontal = (chars, rowIndex, colIndex, matrix) =>
 const matchVertical = (chars, rowIndex, colIndex, matrix) =>
   R.pipe(
     R.juxt([
-      allIndexed(
-        (char, index) =>
-          strictPath([rowIndex + index, colIndex], matrix) === char),
-      allIndexed(
-        (char, index) =>
-          strictPath([rowIndex - index, colIndex], matrix) === char)
+      allIndexed((char, index) =>
+        strictPath([rowIndex + index, colIndex], matrix) === char
+      ),
+      allIndexed((char, index) =>
+        strictPath([rowIndex - index, colIndex], matrix) === char
+      )
     ]),
     R.sum
   )(chars)
 
 const matchFromTopLeftToBottomRight = (chars, rowIndex, colIndex, matrix) =>
   R.pipe(
-    allIndexed(
-      (char, index) =>
-        strictPath([rowIndex + index, colIndex + index], matrix) === char),
+    allIndexed((char, index) =>
+      strictPath([rowIndex + index, colIndex + index], matrix) === char
+    ),
     Number
   )(chars)
 
 const matchFromBottomRightToTopLeft = (chars, rowIndex, colIndex, matrix) =>
   R.pipe(
-    allIndexed(
-      (char, index) =>
-        strictPath([rowIndex - index, colIndex - index], matrix) === char),
+    allIndexed((char, index) =>
+      strictPath([rowIndex - index, colIndex - index], matrix) === char
+    ),
     Number
   )(chars)
 
@@ -63,18 +63,16 @@ const matchMainDiagonal = R.pipe(
 
 const matchFromTopRightToBottomLeft = (chars, rowIndex, colIndex, matrix) =>
   R.pipe(
-    allIndexed(
-      (char, index) =>
-        strictPath([rowIndex + index, colIndex - index], matrix) === char
+    allIndexed((char, index) =>
+      strictPath([rowIndex + index, colIndex - index], matrix) === char
     ),
     Number
   )(chars)
 
 const matchFromBottomLeftToTopRight = (chars, rowIndex, colIndex, matrix) =>
   R.pipe(
-    allIndexed(
-      (char, index) =>
-        strictPath([rowIndex - index, colIndex + index], matrix) === char
+    allIndexed((char, index) =>
+      strictPath([rowIndex - index, colIndex + index], matrix) === char
     ),
     Number
   )(chars)
@@ -108,22 +106,20 @@ const matchXPattern = (chars, rowIndex, colIndex, matrix) =>
 
 export const part1 = R.pipe(
   parseInput,
-  reduceMatrix(
-    (count, char, rowIndex, colIndex, matrix) =>
-      char === R.head(XMAS)
-        ? count + matchAllDirections(XMAS, rowIndex, colIndex, matrix)
-        : count,
+  reduceMatrix((count, char, rowIndex, colIndex, matrix) =>
+    char === R.head(XMAS)
+      ? count + matchAllDirections(XMAS, rowIndex, colIndex, matrix)
+      : count,
     0
   )
 )
 
 export const part2 = R.pipe(
   parseInput,
-  reduceMatrix(
-    (count, char, rowIndex, colIndex, matrix) =>
-      char === R.nth(1, MAS)
-        ? count + matchXPattern(MAS, rowIndex, colIndex, matrix)
-        : count,
+  reduceMatrix((count, char, rowIndex, colIndex, matrix) =>
+    char === R.nth(1, MAS)
+      ? count + matchXPattern(MAS, rowIndex, colIndex, matrix)
+      : count,
     0
   )
 )
