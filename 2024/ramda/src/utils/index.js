@@ -34,7 +34,29 @@ export const isDecreasing = ns =>
 
 export const isMonotonic = ns => R.or(isIncreasing(ns), isDecreasing(ns))
 
-export const isInRange = (x, ns) =>
-  allIndexed((n, idx) => idx === 0 || Math.abs(n - ns[idx - 1]) <= x, ns)
+export const isInRange = R.curryN(2, (x, ns) =>
+  allIndexed((n, idx) => idx === 0 || Math.abs(n - ns[idx - 1]) <= x, ns))
 
 export const anyIndexed = R.addIndex(R.any)
+
+export const reduceIndexed = R.addIndex(R.reduce)
+
+export const mapIndexed = R.addIndex(R.map)
+
+export const reduceMatrix = R.curryN(3, (callback, initialValue, matrix) => {
+  let accumulator = initialValue
+
+  for (let i = 0; i < matrix.length; i++) {
+    for (let j = 0; j < matrix[i].length; j++) {
+      accumulator = callback(accumulator, matrix[i][j], i, j, matrix)
+    }
+  }
+
+  return accumulator
+})
+
+export const strictPath = (path, coll) =>
+  R.pipe(
+    R.map(n => n < 0 ? undefined : n),
+    R.path(R.__, coll)
+  )(path)
