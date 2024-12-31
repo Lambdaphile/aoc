@@ -4,8 +4,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "func() { node --watch ./src/days/${1:-01}/index.js; }; func",
-    "start:debug": "func() { node --inspect-brk ./src/days/${1:-01}/index.js; }; func",
+    "start": "func() { day=$(printf \"%02d\" ${1:-1}); node --watch ./src/days/$day/index.js; }; func",
+    "start:debug": "func() { day=$(printf \"%02d\" ${1:-1}); node --inspect-brk ./src/days/$day/index.js; }; func",
     "test": "node --no-warnings --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:watch": "node --no-warnings --experimental-vm-modules node_modules/jest/bin/jest.js --watchAll",
     "test:debug": "node --inspect-brk --experimental-vm-modules node_modules/jest/bin/jest.js"
