@@ -5,8 +5,8 @@ My [Advent of Code 2024](https://adventofcode.com/2024) puzzle solutions impleme
 ## 🎯 Usage
 
 - 📦 `npm install`: To install dependencies
-- 🚀 `npm start <day>`: To get the solutions for a specific day; Example: `npm start 01`
-- 🐞 `npm run start:debug <day>`: To debug the solutions of a specific day; Example: `npm run start:debug 01`
+- 🚀 `npm start <day>`: To get the solutions for a specific day; Example: `npm start 2` (1 is the default)
+- 🐞 `npm run start:debug <day>`: To debug the solutions of a specific day; Example: `npm run start:debug 2`
 - 🧪 `npm run test` or `npm run test:watch`: To run tests
 - 🐛 `npm run test:debug`: To debug tests and test inputs
 
