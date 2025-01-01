@@ -1,114 +1,58 @@
 import * as R from 'ramda'
 import {
   allIndexed,
-  reduceMatrix,
+  matrixReduce,
   run,
-  strictPath,
-} from "../../utils/index.js";
+  strictPath
+} from "../../utils/index.js"
 
-const XMAS = R.split('', 'XMAS')
-const MAS = R.tail(XMAS)
+export const XMAS = 'XMAS'
+export const MAS = 'MAS'
+export const DIRS = {
+  n: ([y, x], scale) => [y - scale, x],
+  ne: ([y, x], scale) => [y - scale, x + scale],
+  e: ([y, x], scale) => [y, x + scale],
+  se: ([y, x], scale) => [y + scale, x + scale],
+  s: ([y, x], scale) => [y + scale, x],
+  sw: ([y, x], scale) => [y + scale, x - scale],
+  w: ([y, x], scale) => [y, x - scale],
+  nw: ([y, x], scale) => [y - scale, x - scale]
+}
 
 export const parseInput = R.pipe(
   R.split('\n'),
   R.map(R.split(''))
 )
 
-const matchHorizontal = (chars, rowIndex, colIndex, matrix) =>
+export const matchWord = (word, dir, startPoint, grid) =>
+  allIndexed(
+    (char, index) => char === strictPath(dir(startPoint, index), grid),
+    word
+  )
+
+export const matchAllDirs = (word, startPoint, grid) =>
   R.pipe(
-    R.juxt([
-      allIndexed((char, index) =>
-        strictPath([rowIndex, colIndex + index], matrix) === char
-      ),
-      allIndexed((char, index) =>
-        strictPath([rowIndex, colIndex - index], matrix) === char
-      )
-    ]),
-    R.sum
-  )(chars)
+    R.values,
+    R.map(dir => matchWord(word, dir, startPoint, grid))
+  )(DIRS)
 
-const matchVertical = (chars, rowIndex, colIndex, matrix) =>
-  R.pipe(
-    R.juxt([
-      allIndexed((char, index) =>
-        strictPath([rowIndex + index, colIndex], matrix) === char
-      ),
-      allIndexed((char, index) =>
-        strictPath([rowIndex - index, colIndex], matrix) === char
-      )
-    ]),
-    R.sum
-  )(chars)
-
-const matchFromTopLeftToBottomRight = (chars, rowIndex, colIndex, matrix) =>
-  R.pipe(
-    allIndexed((char, index) =>
-      strictPath([rowIndex + index, colIndex + index], matrix) === char
-    ),
-    Number
-  )(chars)
-
-const matchFromBottomRightToTopLeft = (chars, rowIndex, colIndex, matrix) =>
-  R.pipe(
-    allIndexed((char, index) =>
-      strictPath([rowIndex - index, colIndex - index], matrix) === char
-    ),
-    Number
-  )(chars)
-
-const matchMainDiagonal = R.pipe(
-  R.juxt([matchFromTopLeftToBottomRight, matchFromBottomRightToTopLeft]),
-  R.sum
-)
-
-const matchFromTopRightToBottomLeft = (chars, rowIndex, colIndex, matrix) =>
-  R.pipe(
-    allIndexed((char, index) =>
-      strictPath([rowIndex + index, colIndex - index], matrix) === char
-    ),
-    Number
-  )(chars)
-
-const matchFromBottomLeftToTopRight = (chars, rowIndex, colIndex, matrix) =>
-  R.pipe(
-    allIndexed((char, index) =>
-      strictPath([rowIndex - index, colIndex + index], matrix) === char
-    ),
-    Number
-  )(chars)
-
-const matchSecondDiagonal = R.pipe(
-  R.juxt([matchFromTopRightToBottomLeft, matchFromBottomLeftToTopRight]),
-  R.sum
-)
-
-const matchDiagonals = R.converge(
-  R.add,
-  [matchMainDiagonal, matchSecondDiagonal]
-)
-
-const matchAllDirections = R.converge(
-  (...result) => R.sum(result),
-  [matchHorizontal, matchVertical, matchDiagonals]
-)
-
-const matchXPattern = (chars, rowIndex, colIndex, matrix) =>
+export const matchCrossDirs = (word, [y, x], grid) =>
   R.and(
-    R.add(
-      matchFromTopLeftToBottomRight(chars, rowIndex - 1, colIndex - 1, matrix),
-      matchFromBottomRightToTopLeft(chars, rowIndex + 1, colIndex + 1, matrix)
+    R.or(
+      matchWord(word, DIRS.se, [R.dec(y), R.dec(x)], grid),
+      matchWord(word, DIRS.nw, [R.inc(y), R.inc(x)], grid)
     ),
-    R.add(
-      matchFromTopRightToBottomLeft(chars, rowIndex - 1, colIndex + 1, matrix),
-      matchFromBottomLeftToTopRight(chars, rowIndex + 1, colIndex - 1, matrix)
+    R.or(
+      matchWord(word, DIRS.sw, [R.dec(y), R.inc(x)], grid),
+      matchWord(word, DIRS.ne, [R.inc(y), R.dec(x)], grid)
     )
   )
 
 export const part1 = R.pipe(
   parseInput,
-  reduceMatrix((count, char, rowIndex, colIndex, matrix) =>
+  matrixReduce((count, char, coord, original) =>
     char === R.head(XMAS)
-      ? count + matchAllDirections(XMAS, rowIndex, colIndex, matrix)
+      ? count + R.sum(matchAllDirs(XMAS, coord, original))
       : count,
     0
   )
@@ -116,9 +60,9 @@ export const part1 = R.pipe(
 
 export const part2 = R.pipe(
   parseInput,
-  reduceMatrix((count, char, rowIndex, colIndex, matrix) =>
+  matrixReduce((count, char, coord, original) =>
     char === R.nth(1, MAS)
-      ? count + matchXPattern(MAS, rowIndex, colIndex, matrix)
+      ? count + matchCrossDirs(MAS, coord, original)
       : count,
     0
   )

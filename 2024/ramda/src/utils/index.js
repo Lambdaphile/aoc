@@ -43,12 +43,12 @@ export const reduceIndexed = R.addIndex(R.reduce)
 
 export const mapIndexed = R.addIndex(R.map)
 
-export const reduceMatrix = R.curryN(3, (callback, initialValue, matrix) => {
+export const matrixReduce = R.curryN(3, (callback, initialValue, matrix) => {
   let accumulator = initialValue
 
   for (let i = 0; i < matrix.length; i++) {
     for (let j = 0; j < matrix[i].length; j++) {
-      accumulator = callback(accumulator, matrix[i][j], i, j, matrix)
+      accumulator = callback(accumulator, matrix[i][j], [i, j], matrix)
     }
   }
 
