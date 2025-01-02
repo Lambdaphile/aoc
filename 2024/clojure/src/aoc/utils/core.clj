@@ -12,7 +12,8 @@
     (vector (part-1 input) (part-2 input))))
 
 (defn run-tests []
-  (eftest/run-tests (eftest/find-tests "src/aoc")))
+  (eftest/run-tests
+   (eftest/find-tests "src/aoc") {:report eftest.report.pretty/report}))
 
 (defn transpose [m]
   (apply map vector m))
@@ -36,3 +37,14 @@
 
 (defn drop-range [start count coll]
   (concat (take start coll) (drop (+ count start) coll)))
+
+(defn mat-reduce [f initial-val m]
+  (reduce
+   (fn [acc [i row]]
+     (reduce
+      (fn [acc2 [j val]]
+        (f acc2 val [i j] m))
+      acc
+      (map-indexed vector row)))
+   initial-val
+   (map-indexed vector m)))
