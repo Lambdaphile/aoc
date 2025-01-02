@@ -27,4 +27,4 @@
   (->> input
        parse-input
        similarities
-       (reduce +)))
+       (apply +)))
