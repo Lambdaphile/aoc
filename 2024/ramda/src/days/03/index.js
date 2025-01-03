@@ -18,7 +18,7 @@ export const part2 = R.pipe(
     R.cond([
       [R.equals('do()'), R.always([true, sum])],
       [R.equals('don\'t()'), R.always([false, sum])],
-      [R.always(isEnabled), R.always([true, sum + evaluate(expr)])],
+      [() => isEnabled, R.always([true, sum + evaluate(expr)])],
       [R.T, R.always([false, sum])]
     ])(expr),
     [true, 0]
