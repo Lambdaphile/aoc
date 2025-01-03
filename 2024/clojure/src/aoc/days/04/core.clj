@@ -20,12 +20,11 @@
        (mapv #(str/split % #""))))
 
 (defn match-word [word dir start-point grid]
-  (every?
-   (fn [idx]
-     (=
-      (str (nth word idx))
-      (get-in grid (dir start-point idx))))
-   (range (count word))))
+  (every? (fn [idx]
+            (=
+             (str (nth word idx))
+             (get-in grid (dir start-point idx))))
+          (range (count word))))
 
 (defn match-all-dirs [word start-point grid]
   (->> dirs
@@ -66,4 +65,3 @@
                (if (match-cross-dirs mas coord original) 1 0))
             count))
         0)))
-

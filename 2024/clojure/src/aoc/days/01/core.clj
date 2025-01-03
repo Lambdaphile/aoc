@@ -21,7 +21,8 @@
        (map sort)
        u/transpose
        (reduce (fn [sum [x y]]
-                 (+ sum (abs-diff x y))) 0)))
+                 (+ sum (abs-diff x y)))
+               0)))
 
 (defn part-2 [input]
   (->> input

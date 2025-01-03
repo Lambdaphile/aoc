@@ -16,16 +16,19 @@
 (defn dampened-safe? [report]
   (or (safe? report)
       (some (fn [idx]
-              (safe? (u/drop-range idx 1 report))) (range (count report)))))
+              (safe? (u/drop-range idx 1 report)))
+            (range (count report)))))
 
 (defn part-1 [input]
   (->> input
        parse-input
        (reduce (fn [count report]
-                 (if (safe? report) (inc count) count)) 0)))
+                 (if (safe? report) (inc count) count))
+               0)))
 
 (defn part-2 [input]
   (->> input
        parse-input
        (reduce (fn [count report]
-                 (if (dampened-safe? report) (inc count) count)) 0)))
+                 (if (dampened-safe? report) (inc count) count))
+               0)))
