@@ -1,4 +1,4 @@
-(ns days.04.core-test
+(ns aoc.days.04.core-test
   (:require [clojure.test :refer [deftest is]]
             [aoc.days.04.core :refer :all]))
 
