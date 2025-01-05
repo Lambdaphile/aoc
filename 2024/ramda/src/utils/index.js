@@ -60,3 +60,18 @@ export const strictPath = (path, coll) =>
     R.map(n => n < 0 ? undefined : n),
     R.path(R.__, coll)
   )(path)
+
+export const matrixMap = R.curryN(2, (callback, matrix) => {
+  let result = []
+
+  for (let i = 0; i < matrix.length; i++) {
+    result[i] = []
+    for (let j = 0; j < matrix[i].length; j++) {
+      result[i][j] = callback(matrix[i][j], [i, j], matrix)
+    }
+  }
+
+  return result
+})
+
+export const mid = coll => R.nth(Math.floor(coll.length / 2), coll)
