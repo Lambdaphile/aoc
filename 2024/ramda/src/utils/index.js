@@ -74,4 +74,18 @@ export const matrixMap = R.curryN(2, (callback, matrix) => {
   return result
 })
 
-export const mid = coll => R.nth(Math.floor(coll.length / 2), coll)
+export const isEven = n => n % 2 === 0
+
+export const isOdd = R.complement(isEven)
+
+export const mid = xs => {
+  if (xs.length === 0)
+    return undefined
+
+  const halfLength = Math.floor(xs.length / 2)
+
+  if (isEven(xs.length))
+    return R.slice(halfLength - 1, halfLength + 1, xs)
+
+  return R.nth(halfLength, xs)
+}
