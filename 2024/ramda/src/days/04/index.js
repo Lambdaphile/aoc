@@ -4,7 +4,7 @@ import {
   matrixReduce,
   run,
   strictPath
-} from "../../utils/index.js"
+} from '../../utils/index.js'
 
 export const XMAS = 'XMAS'
 export const MAS = 'MAS'
