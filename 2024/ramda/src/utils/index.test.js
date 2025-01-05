@@ -3,7 +3,11 @@ import {
   isDecreasing,
   isIncreasing,
   isInRange,
-  isMonotonic
+  isMonotonic,
+  matrixMap,
+  matrixReduce,
+  mid,
+  strictPath
 } from './index.js'
 
 describe('frequency', () => {
@@ -108,5 +112,48 @@ describe('isInRange', () => {
 
   it('should return true for an empty array', () => {
     expect(isInRange(3, [])).toBe(true)
+  })
+})
+
+const matrix = [
+  [1, 2],
+  [3, 4]
+]
+
+describe('strictPath', () => {
+  it('should return the element at given path', () => {
+    expect(strictPath([1, 1], matrix)).toBe(4)
+  })
+
+  it('should return undefined for negative number paths', () => {
+    expect(strictPath([1, -1], matrix)).toBe(undefined)
+  })
+})
+
+describe('matrixMap', () => {
+  it('should map the matrix and multiply items by themselves', () => {
+    expect(matrixMap(n => n * n, matrix)).toEqual([
+      [1, 4],
+      [9, 16]
+    ])
+  })
+})
+
+describe('matrixReduce', () => {
+  it('should return the sum of the numbers in the matrix', () => {
+    expect(matrixReduce((sum, n) => sum + n, 0, matrix)).toBe(10)
+  })
+})
+
+describe('mid', () => {
+  it('should return the middle element in a collection', () => {
+    expect(mid([1, 2, 3])).toBe(2)
+    expect(mid([1, 2, 3, 4])).toEqual([2, 3])
+    expect(mid('123')).toBe('2')
+    expect(mid('1234')).toBe('23')
+  })
+
+  it('should return undefined for empty collections', () => {
+    expect(mid([])).toBe(undefined)
   })
 })
