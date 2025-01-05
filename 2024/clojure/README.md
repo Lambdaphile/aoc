@@ -6,7 +6,7 @@ My [Advent of Code 2024](https://adventofcode.com/2024) puzzle solutions impleme
 
 - 🚀 `lein run <day> <part>`: To get the solutions for a specific day; Example: `lein run 1 1`
 - 🧪 `lein eftest`: to run tests
-- 💻 Alternatively, use the `run` and `run-tests` functions from `src/utils/core.clj` in your editor's REPL, without having to navigate to the terminal
+- 💻 Alternatively, use the `run` and `run-tests` functions from `src/utils/core.clj` in your editor's REPL, eliminating the need for the terminal.
 
 ## 📂 Directory Structure
 
