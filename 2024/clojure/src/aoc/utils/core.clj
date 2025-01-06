@@ -9,9 +9,9 @@
 (defn read-input [day]
   (slurp (comp-input-path day)))
 
-(defn run [day part-1 part-2]
+(defn run [day & fs]
   (let [input (read-input day)]
-    (vector (part-1 input) (part-2 input))))
+    (map #(% input) fs)))
 
 (defn run-tests []
   (eftest/run-tests
