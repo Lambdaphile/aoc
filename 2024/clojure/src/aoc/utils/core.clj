@@ -1,5 +1,7 @@
 (ns aoc.utils.core
-  (:require [eftest.runner :as eftest]))
+  (:require [eftest.runner :as eftest]
+            [clojure.string :as str]
+            [clojure.math :as math]))
 
 (defn comp-input-path [day]
   (str "src/aoc/days/" (if (< day 10) (str "0" day) day)  "/input.txt"))
@@ -48,3 +50,20 @@
       (map-indexed vector row)))
    initial-val
    (map-indexed vector m)))
+
+(defn split-paragraphs [s]
+  (str/split s #"\n\n"))
+
+(defn every-indexed? [pred coll]
+  (every? true? (map-indexed pred coll)))
+
+(defn mid [coll]
+  (let [mid-idx (math/floor (double (/ (count coll) 2)))
+        start (dec mid-idx)
+        end (inc mid-idx)]
+    (cond
+      (empty? coll) nil
+      (even? (count coll)) (if (string? coll)
+                             (subs coll start end)
+                             (subvec coll start end))
+      :else (nth coll mid-idx))))

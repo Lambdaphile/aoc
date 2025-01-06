@@ -57,3 +57,18 @@
 
 (deftest drop-range-test
   (is (= '(1 3) (drop-range 1 1 '(1 2 3)))))
+
+(deftest every-indexed?-test
+  (is (true? (every-indexed? #(= %1 %2) [0 1 2])))
+  (is (false? (every-indexed? #(= %1 %2) [0 1 3]))))
+
+(deftest mid-test
+  (testing "returns the middle element in a collection"
+    (is (= 2 (mid [1 2 3])))
+    (is (= [2 3] (mid [1 2 3 4])))
+    (is (= \2 (mid "123")))
+    (is (= "23" (mid "1234"))))
+
+  (testing "returns nil for empty collections"
+    (is (nil? (mid [])))
+    (is (nil? (mid "")))))
