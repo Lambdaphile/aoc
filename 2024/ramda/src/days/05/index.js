@@ -27,16 +27,14 @@ export const parseInput = R.pipe(
 )
 
 export const validateUpdate = (update, rules) =>
-  allIndexed((pageNum, index) => {
-    const sub = R.drop(index + 1, update)
-
-    if (R.isEmpty(sub))
-      return true
-    if (R.not(R.has(pageNum, rules)))
-      return false
-
-    return R.prop(pageNum, rules).isSupersetOf(new Set(sub))
-  }, update)
+  allIndexed((pageNum, index) =>
+    R.cond([
+      [R.isEmpty, R.always(true)],
+      [() => R.not(R.has(pageNum, rules)), R.always(false)],
+      [R.T, sub => R.prop(pageNum, rules).isSupersetOf(new Set(sub))]
+    ])(R.drop(index + 1, update)),
+    update
+  )
 
 export const validateUpdates = (updates, rules) =>
   R.map(update => [validateUpdate(update, rules), update], updates)

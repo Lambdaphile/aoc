@@ -78,14 +78,13 @@ export const isEven = n => n % 2 === 0
 
 export const isOdd = R.complement(isEven)
 
-export const mid = xs => {
-  if (xs.length === 0)
-    return undefined
-
-  const halfLength = Math.floor(xs.length / 2)
-
-  if (isEven(xs.length))
-    return R.slice(halfLength - 1, halfLength + 1, xs)
-
-  return R.nth(halfLength, xs)
-}
+export const mid = xs =>
+  R.pipe(
+    xs => Math.floor(xs.length / 2),
+    midIndex =>
+      R.cond([
+        [R.isEmpty, R.always(undefined)],
+        [R.pipe(R.length, isEven), R.slice(midIndex - 1, midIndex + 1)],
+        [R.T, R.nth(midIndex)]
+      ])(xs)
+  )(xs)
