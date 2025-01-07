@@ -1,6 +1,5 @@
 (ns aoc.days.05.core-test
   (:require [clojure.test :refer [deftest is testing]]
-            [clojure.string :as str]
             [aoc.days.05.core :refer :all]
             [aoc.utils.core :as u]))
 

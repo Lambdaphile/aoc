@@ -1,7 +1,7 @@
 (ns aoc.core
-  (:require [clojure.tools.cli :refer [parse-opts]])
-  (:require [clojure.string :as str])
-  (:require [aoc.utils.core :as u]))
+  (:require [clojure.tools.cli :refer [parse-opts]]
+            [clojure.string :as str]
+            [aoc.utils.core :as u]))
 
 (defn error-msg [errors]
   (str "The following errors occurred while parsing the command:\n\n"

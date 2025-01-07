@@ -17,12 +17,6 @@
   (eftest/run-tests
    (eftest/find-tests "src/aoc") {:report eftest.report.pretty/report}))
 
-(defn transpose [m]
-  (apply map vector m))
-
-(defn mat-map [f m]
-  (map #(map f %) m))
-
 (defn in-range? [n coll]
   (every? (fn [[curr next]] (<= (abs (- curr next)) n))
           (partition 2 1 coll)))

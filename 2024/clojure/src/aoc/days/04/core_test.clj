@@ -12,7 +12,6 @@ SMSMSASXSS
 SAXAMASAAA
 MAMMMXMMMM
 MXMXAXMASX")
-
 (def parsed-input
   [["M" "M" "M" "S" "X" "X" "M" "A" "S" "M"]
    ["M" "S" "A" "M" "X" "M" "S" "M" "S" "A"]

@@ -1,12 +1,12 @@
 (ns aoc.days.01.core
-  (:require [aoc.utils.core :as u]))
+  (:require [clojure.core.matrix :refer [transpose]]))
 
 (defn parse-input [input]
   (->> input
        (re-seq #"\d+")
        (map parse-long)
        (partition 2)
-       u/transpose))
+       transpose))
 
 (defn abs-diff [x y]
   (abs (- x y)))
@@ -19,7 +19,7 @@
   (->> input
        parse-input
        (map sort)
-       u/transpose
+       transpose
        (reduce (fn [sum [x y]]
                  (+ sum (abs-diff x y)))
                0)))

@@ -5,12 +5,6 @@
 (deftest compose-input-path-test
   (is (= "src/aoc/days/01/input.txt" (comp-input-path 1))))
 
-(deftest transpose-test
-  (is (= [[1 3] [2 4]]  (transpose [[1 2] [3 4]]))))
-
-(deftest map-map-test
-  (is (= [[1 2] [3 4]] (mat-map inc [[0 1] [2 3]]))))
-
 (deftest increasing-test
   (testing "returns true for strictly increasing collections"
     (is (= true (increasing? [1 2 3])))

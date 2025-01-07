@@ -1,5 +1,6 @@
 (ns aoc.days.02.core
   (:require [clojure.string :as str]
+            [clojure.core.matrix :refer [emap]]
             [aoc.utils.core :as u]))
 
 (def max-diff 3)
@@ -8,7 +9,7 @@
   (->> input
        (str/split-lines)
        (map #(re-seq #"\d+" %))
-       (u/mat-map parse-long)))
+       (emap parse-long)))
 
 (defn safe? [report]
   (and (u/in-range? max-diff report) (u/monotonic? report)))

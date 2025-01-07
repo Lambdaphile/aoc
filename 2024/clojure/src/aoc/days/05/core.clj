@@ -1,13 +1,14 @@
 (ns aoc.days.05.core
   (:require [clojure.string :as str]
             [clojure.set :as set]
+            [clojure.core.matrix :refer [emap]]
             [aoc.utils.core :as u]))
 
 (defn parse-rules [rules]
   (->> rules
        str/split-lines
        (map #(str/split % #"\|"))
-       (u/mat-map parse-long)
+       (emap parse-long)
        (reduce (fn [rules [x y]]
                  (update rules x (fnil conj #{}) y))
                {})))
@@ -16,7 +17,7 @@
   (->> updates
        str/split-lines
        (map #(str/split % #","))
-       (u/mat-map parse-long)))
+       (emap parse-long)))
 
 (defn parse-input [input]
   (->> input
