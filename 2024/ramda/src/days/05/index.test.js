@@ -4,6 +4,8 @@ import {
   parseRules,
   parseUpdates,
   part1,
+  part2,
+  reorderUpdates,
   validateUpdate,
   validateUpdates
 } from './index.js'
@@ -88,12 +90,25 @@ describe('validateUpdate', () => {
 describe('validateUpdates', () => {
   it('should return validated updates as a tuple of [boolean, update]', () => {
     expect(validateUpdates(parsedUpdates, parsedRules)).toEqual([
-      [true, R.nth(0, parsedUpdates)],
-      [true, R.nth(1, parsedUpdates)],
-      [true, R.nth(2, parsedUpdates)],
-      [false, R.nth(3, parsedUpdates)],
-      [false, R.nth(4, parsedUpdates)],
-      [false, R.nth(5, parsedUpdates)]
+      [
+        [true, R.nth(0, parsedUpdates)],
+        [true, R.nth(1, parsedUpdates)],
+        [true, R.nth(2, parsedUpdates)],
+        [false, R.nth(3, parsedUpdates)],
+        [false, R.nth(4, parsedUpdates)],
+        [false, R.nth(5, parsedUpdates)]
+      ],
+      parsedRules
+    ])
+  })
+})
+
+describe('reorderUpdates', () => {
+  it('should return reorder and corrected incorrect updates', () => {
+    expect(reorderUpdates(R.drop(3, parsedUpdates), parsedRules)).toEqual([
+      [97, 75, 47, 61, 53],
+      [61, 29, 13],
+      [97, 75, 47, 29, 13]
     ])
   })
 })
@@ -101,5 +116,11 @@ describe('validateUpdates', () => {
 describe('part1', () => {
   it('should return the sum of middle page numbers from correctly-ordered updates', () => {
     expect(part1(input)).toBe(143)
+  })
+})
+
+describe('part2', () => {
+  it('should return the sum of middle page numbers from incorrectly-ordered updates after correction', () => {
+    expect(part2(input)).toBe(123)
   })
 })

@@ -88,3 +88,20 @@ export const mid = xs =>
         [R.T, R.nth(midIndex)]
       ])(xs)
   )(xs)
+
+export const bubble = R.curryN(2, (pred, list) => {
+  const result = [...list]
+
+  for (let i = 0; i < result.length - 1; i++) {
+    for (let j = 0; j < result.length - 1; j++) {
+      const x = result[j], y = result[j + 1]
+
+      if (pred(x, y, result)) {
+        result[j] = y
+        result[j + 1] = x
+      }
+    }
+  }
+
+  return result
+})
