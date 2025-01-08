@@ -72,14 +72,24 @@
 
 (deftest validate-updates-test
   (is (=
-       [[true (nth parsed-updates 0)]
-        [true (nth parsed-updates 1)]
-        [true (nth parsed-updates 2)]
-        [false (nth parsed-updates 3)]
-        [false (nth parsed-updates 4)]
-        [false (nth parsed-updates 5)]]
+       [(list [true (nth parsed-updates 0)]
+              [true (nth parsed-updates 1)]
+              [true (nth parsed-updates 2)]
+              [false (nth parsed-updates 3)]
+              [false (nth parsed-updates 4)]
+              [false (nth parsed-updates 5)]) parsed-rules]
        (validate-updates parsed-updates parsed-rules))))
+
+(deftest reorder-updates-test
+  (is (=
+       [[97, 75, 47, 61, 53],
+        [61, 29, 13],
+        [97, 75, 47, 29, 13]]
+       (reorder-updates (drop 3 parsed-updates) parsed-rules))))
 
 (deftest part-1-test
   (is (= 143 (part-1 input))))
+
+(deftest part-2-test
+  (is (= 123 (part-2 input))))
 

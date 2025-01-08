@@ -25,24 +25,45 @@
        (apply (fn [rules updates]
                 [(parse-updates updates) (parse-rules rules)]))))
 
+(defn valid-update? [sub-update page-rules]
+  (set/subset? (set sub-update) (or page-rules #{})))
+
 (defn validate-update [update rules]
   (u/every-indexed? (fn [idx page-num]
-                      (let [sub (drop (inc idx) update)
+                      (let [sub-update (drop (inc idx) update)
                             page-rules (get rules page-num)]
-                        (cond
-                          (empty? sub) true
-                          (empty? page-rules) false
-                          :else (set/superset? page-rules (set sub)))))
+                        (valid-update? sub-update page-rules)))
                     update))
 
 (defn validate-updates [updates rules]
-  (map #(vector (validate-update % rules) %) updates))
+  [(map #(vector (validate-update % rules) %) updates) rules])
+
+(defn sum-mids [updates]
+  (reduce #(+ %1 (u/mid %2)) 0 updates))
+
+(defn reorder-updates [updates rules]
+  (map #(u/bubble (fn [page-num _ reord-update]
+                    (let [idx (u/index-of page-num reord-update)
+                          sub-update (drop (inc idx) reord-update)
+                          page-rules (get rules page-num)]
+                      (not (valid-update? sub-update page-rules))))
+                  %)
+       updates))
 
 (defn part-1 [input]
   (->> input
        parse-input
        (apply validate-updates)
+       first
        (filter #(true? (first %)))
-       (reduce (fn [sum update]
-                 (+ sum (u/mid (second update))))
-               0)))
+       (map last)
+       sum-mids))
+
+(defn part-2 [input]
+  (->> input
+       parse-input
+       (apply validate-updates)
+       ((juxt
+         (comp #(map last %) #(remove (comp true? first) %) first) last))
+       (apply reorder-updates)
+       sum-mids))

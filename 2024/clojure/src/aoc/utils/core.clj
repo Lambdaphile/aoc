@@ -61,3 +61,19 @@
                              (subs coll start end)
                              (subvec coll start end))
       :else (nth coll mid-idx))))
+
+(defn index-of [x coll]
+  (some (fn [[idx val]] (when (= val x) idx))
+        (map-indexed vector coll)))
+
+(defn bubble [pred coll]
+  (let [r (atom (vec coll))
+        n (count @r)]
+    (doseq [_ (range (dec n))]
+      (doseq [j (range (dec n))]
+        (let [x (nth @r j)
+              y (nth @r (inc j))]
+          (when (pred x y @r)
+            (swap! r assoc j y)
+            (swap! r assoc (inc j) x)))))
+    @r))
