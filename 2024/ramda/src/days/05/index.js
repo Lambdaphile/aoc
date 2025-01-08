@@ -26,12 +26,12 @@ export const parseInput = R.pipe(
   ([rules, updates]) => [parseUpdates(updates), parseRules(rules)]
 )
 
-const isValidUpdate = (sub, update = new Set) =>
-  new Set(sub).isSubsetOf(update)
+const isValidUpdate = (subUpdate, pageRules = new Set) =>
+  new Set(subUpdate).isSubsetOf(pageRules)
 
 export const validateUpdate = (update, rules) =>
   allIndexed((pageNum, index) =>
-    isValidUpdate(R.drop(index + 1, update), R.prop(pageNum, rules)),
+    R.apply(isValidUpdate, [R.drop(index + 1, update), R.prop(pageNum, rules)]),
     update
   )
 
@@ -41,12 +41,15 @@ export const validateUpdates = (updates, rules) =>
     validatedUpdates => [validatedUpdates, rules]
   )(updates)
 
-export const sumMiddles = R.reduce((sum, ns) => sum + mid(ns), 0)
+export const sumMids = R.reduce((sum, ns) => sum + mid(ns), 0)
 
 export const reorderUpdates = (updates, rules) =>
   R.map(
-    bubble((x, _, r) =>
-      !isValidUpdate(R.drop(R.indexOf(x, r) + 1, r), R.prop(x, rules))
+    bubble((pageNum, _, reordUpdate) =>
+      !R.apply(isValidUpdate, [
+        R.drop(R.indexOf(pageNum, reordUpdate) + 1, reordUpdate),
+        R.prop(pageNum, rules)
+      ])
     ),
     updates
   )
@@ -57,7 +60,7 @@ export const part1 = R.pipe(
   R.head,
   R.filter(R.head),
   R.map(R.last),
-  sumMiddles
+  sumMids
 )
 
 export const part2 = R.pipe(
@@ -65,7 +68,7 @@ export const part2 = R.pipe(
   R.apply(validateUpdates),
   R.juxt([R.compose(R.map(R.last), R.reject(R.head), R.head), R.last]),
   R.apply(reorderUpdates),
-  sumMiddles
+  sumMids
 )
 
 run(import.meta.url, part1, part2)

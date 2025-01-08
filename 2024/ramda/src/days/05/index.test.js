@@ -104,7 +104,7 @@ describe('validateUpdates', () => {
 })
 
 describe('reorderUpdates', () => {
-  it('should return reorder and corrected incorrect updates', () => {
+  it('should return correctly reordered updates', () => {
     expect(reorderUpdates(R.drop(3, parsedUpdates), parsedRules)).toEqual([
       [97, 75, 47, 61, 53],
       [61, 29, 13],
@@ -120,7 +120,7 @@ describe('part1', () => {
 })
 
 describe('part2', () => {
-  it('should return the sum of middle page numbers from incorrectly-ordered updates after correction', () => {
+  it('should return the sum of middle page numbers from incorrectly-ordered updates after reordering', () => {
     expect(part2(input)).toBe(123)
   })
 })
